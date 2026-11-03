@@ -60,13 +60,12 @@
       say('Thank you. We have your enquiry and will get back to you soon.', 'ok');
     }
     if (f._honey.value) return done();
-    var data = { Name: name, Phone: phone, Email: mail, Location: f.location.value.trim(), Need: f.range.value, 'Area (sq ft)': f.area.value.trim(), Details: f.message.value.trim(), Page: location.href,
-      _subject: 'Website enquiry from ' + name, _template: 'table', _captcha: 'false' };
-    if (mail) data._replyto = mail;
+    var data = { access_key: form.dataset.key, subject: 'Website enquiry from ' + name, from_name: 'Altius website', Name: name, Phone: phone, Email: mail, Location: f.location.value.trim(), Need: f.range.value, 'Area (sq ft)': f.area.value.trim(), Details: f.message.value.trim(), Page: location.href };
+    if (mail) data.replyto = mail;
     send.disabled = true;
     send.textContent = 'Sending...';
-    say('Sending your enquiry. This can take up to a minute, so please keep this page open.');
-    fetch('https://formsubmit.co/ajax/' + form.dataset.mail, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(data) })
+    say('Sending your enquiry...');
+    fetch('https://api.web3forms.com/submit', { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(data) })
       .then(function (r) { return r.json(); })
       .then(function (d) {
         if (String(d.success) !== 'true') throw new Error('not sent');
