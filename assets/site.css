@@ -57,7 +57,7 @@ p { margin: 0; }
 .top nav { display: flex; flex-wrap: wrap; gap: 4px 26px; margin-left: auto; font-weight: 600; }
 .top nav a { text-decoration: none; padding-block: 4px; border-bottom: 3px solid transparent; }
 .top nav a:hover, .top nav a[aria-current] { border-bottom-color: var(--sun); }
-.top-cta { min-height: 46px; padding: 8px 20px; font-size: 0.95rem; }
+.menu-btn { display: none; }
 
 /* the scene: sky, equipment, rubber ground */
 .scene { position: relative; color: #fff; overflow: hidden; }
@@ -269,10 +269,16 @@ details p { padding-bottom: 20px; color: var(--ink-2); max-width: 66ch; }
   .w-a, .w-b, .w-c { grid-column: span 12; }
   .w-a img, .w-b img, .w-c img { aspect-ratio: 4/3; height: auto; flex: none; }
   .samples { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .top { position: static; }
-  .top nav { order: 3; width: 100%; margin-left: 0; gap: 2px 18px; font-size: 0.93rem; }
-  .top-cta { margin-left: auto; }
-  html { scroll-padding-top: 12px; }
+  .top-in { flex-wrap: nowrap; }
+  .menu-btn { display: inline-flex; align-items: center; gap: 8px; min-height: 46px; margin-left: auto; padding: 8px 16px 8px 12px; border: 2px solid var(--ink); border-radius: 12px; background: var(--paper); color: var(--ink); font: 700 1rem var(--body); cursor: pointer; }
+  .menu-btn svg { width: 24px; height: 24px; fill: currentColor; }
+  .menu-btn .i-close, .top.open .menu-btn .i-menu { display: none; }
+  .top.open .menu-btn .i-close { display: inline; }
+  .top nav { display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; flex-wrap: nowrap; gap: 0; margin: 0; padding: 4px 20px 12px; background: var(--paper); box-shadow: 0 14px 24px rgba(10, 42, 61, .18); font-size: 1.05rem; }
+  .top.open nav { display: flex; }
+  .top nav a { padding-block: 13px; border-bottom: 1px solid var(--line); }
+  .top nav a:last-child { border-bottom: 0; }
+  .top nav a[aria-current] { color: var(--ink); font-weight: 800; border-bottom-color: var(--line); }
 }
 @media (max-width: 560px) {
   body { font-size: 16px; }
