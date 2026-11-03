@@ -68,6 +68,8 @@ p { margin: 0; }
 .scene-copy { display: grid; gap: 18px; align-self: center; padding-bottom: clamp(70px, 8vw, 110px); min-width: 0; }
 .partner { display: inline-flex; align-items: center; gap: 12px; justify-self: start; padding: 8px 18px 8px 12px; border-radius: 14px; background: #fff; color: var(--ink); font-weight: 700; font-size: 0.95rem; }
 .partner-logo img { display: block; width: auto; height: 46px; }
+.range .partner { margin-top: 4px; padding: 6px 14px 6px 10px; font-size: 0.86rem; }
+.range .partner-logo img { height: 34px; }
 .kicker { font-weight: 700; font-size: 0.95rem; color: var(--sun); }
 .lede { font-size: clamp(1.08rem, 1.6vw, 1.28rem); line-height: 1.5; max-width: 34em; }
 .scene-art { min-width: 0; margin-bottom: 34px; align-self: end; }
