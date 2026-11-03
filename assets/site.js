@@ -29,47 +29,55 @@
   });
 })();
 
-// Enquiry form: emails the details to the office and builds a WhatsApp message for the visitor to send
+// Enquiry form: emails the details to the office
 (function () {
   var form = document.getElementById('enq');
   if (!form) return;
-  var link = document.getElementById('enq-link');
+  var send = document.getElementById('enq-send');
   var note = document.getElementById('enq-note');
-  var sent = '';
-  function email(f, name) {
-    if (f._honey.value) return;
-    var data = { Name: name, Location: f.location.value.trim(), Need: f.range.value, 'Area (sq ft)': f.area.value.trim(), Details: f.message.value.trim(), Page: location.href,
-      _subject: 'Website enquiry from ' + name, _template: 'table', _captcha: 'false' };
-    var key = JSON.stringify(data);
-    if (key === sent) return;
-    sent = key;
-    fetch('https://formsubmit.co/ajax/' + form.dataset.mail, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: key })
-      .then(function (r) { return r.json(); })
-      .then(function (d) {
-        if (String(d.success) === 'true') note.textContent = 'We have your details by email. Tap below to send them on WhatsApp too.';
-      })
-      .catch(function () {});
+  var label = send.innerHTML;
+  function say(text, kind) {
+    note.textContent = text;
+    note.className = 'fnote' + (kind ? ' fnote-' + kind : '');
+  }
+  function stop(field, text) {
+    field.setAttribute('aria-invalid', 'true');
+    say(text, 'bad');
+    field.focus();
   }
   form.addEventListener('submit', function (ev) {
     ev.preventDefault();
     var f = form.elements;
     var name = f.name.value.trim();
-    if (!name) {
-      f.name.setAttribute('aria-invalid', 'true');
-      note.textContent = 'Please add your name so we know who to reply to.';
-      f.name.focus();
-      return;
+    var phone = f.phone.value.trim();
+    var mail = f.email.value.trim();
+    [f.name, f.phone, f.email].forEach(function (x) { x.removeAttribute('aria-invalid'); });
+    if (!name) return stop(f.name, 'Please add your name so we know who to reply to.');
+    if (phone.replace(/\D/g, '').length < 10) return stop(f.phone, 'Please add a phone number with at least 10 digits so we can reach you.');
+    if (mail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail)) return stop(f.email, 'That email address does not look right. Please check it or leave it blank.');
+    function done() {
+      form.reset();
+      say('Thank you. We have your enquiry and will get back to you soon.', 'ok');
     }
-    f.name.removeAttribute('aria-invalid');
-    var lines = ['Hello Altius, I would like a quote.', 'Name: ' + name];
-    if (f.location.value.trim()) lines.push('Location: ' + f.location.value.trim());
-    lines.push('Need: ' + f.range.value);
-    if (f.area.value.trim()) lines.push('Area: ' + f.area.value.trim() + ' sq ft');
-    if (f.message.value.trim()) lines.push('Details: ' + f.message.value.trim());
-    link.href = 'https://wa.me/919830020010?text=' + encodeURIComponent(lines.join('\n'));
-    link.hidden = false;
-    note.textContent = 'Your message is ready. Tap below to open WhatsApp and send it.';
-    link.focus();
-    email(f, name);
+    if (f._honey.value) return done();
+    var data = { Name: name, Phone: phone, Email: mail, Location: f.location.value.trim(), Need: f.range.value, 'Area (sq ft)': f.area.value.trim(), Details: f.message.value.trim(), Page: location.href,
+      _subject: 'Website enquiry from ' + name, _template: 'table', _captcha: 'false' };
+    if (mail) data._replyto = mail;
+    send.disabled = true;
+    send.textContent = 'Sending...';
+    say('Sending your enquiry. This can take up to a minute, so please keep this page open.');
+    fetch('https://formsubmit.co/ajax/' + form.dataset.mail, { method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' }, body: JSON.stringify(data) })
+      .then(function (r) { return r.json(); })
+      .then(function (d) {
+        if (String(d.success) !== 'true') throw new Error('not sent');
+        done();
+      })
+      .catch(function () {
+        say('Sorry, that did not send. Please try again, or call us on +91 98300 20010.', 'bad');
+      })
+      .then(function () {
+        send.disabled = false;
+        send.innerHTML = label;
+      });
   });
 })();
