@@ -27,6 +27,15 @@
       apply();
     });
   });
+  // Ads open the catalogue on one type, for example ?type=Slides
+  var want = new URLSearchParams(location.search).get('type');
+  var chip = chips.filter(function (x) { return want && x.dataset.f === want; })[0];
+  if (chip) {
+    chip.click();
+    window.addEventListener('load', function () {
+      setTimeout(function () { document.querySelector('.tools').scrollIntoView({ behavior: 'instant' }); }, 0);
+    });
+  }
 })();
 
 // Enquiry form: emails the details to the office
