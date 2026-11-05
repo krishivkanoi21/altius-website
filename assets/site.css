@@ -85,11 +85,13 @@ p { margin: 0; }
 .hero-signs img { width: auto; min-width: 0; max-width: 16%; object-fit: contain; filter: drop-shadow(0 8px 6px rgba(0, 0, 0, .3)); }
 .ground { position: absolute; left: 0; right: 0; bottom: 0; height: 74px; background-size: 340px; }
 .scene > .ground { height: clamp(66px, 7vw, 100px); z-index: 1; }
-.ground-green { background-image: url(art/epdm-green.jpg); background-color: #1a8644; }
+.ground-green { background: #1f6b2e url(art/grass-tile.webp) 0 0 / 320px; }
+.ground-green::before, .scene-sky .stats::before { content: ""; position: absolute; left: 0; right: 0; bottom: calc(100% - 16px); height: 32px; background: url(art/grass-top.webp) 0 100% / 640px 32px repeat-x; pointer-events: none; }
 .ground-blue { background-image: url(art/epdm-blue.jpg); background-color: #0e70b4; }
 .ground-red { background-image: url(art/epdm-red.jpg); background-color: #de5228; }
 .scene-sub .scene-copy { padding-bottom: clamp(80px, 8vw, 120px); }
-.stats { position: relative; z-index: 3; background: url(art/epdm-green.jpg) 0 0 / 340px; }
+.stats { position: relative; z-index: 3; background: #1f6b2e url(art/grass-tile.webp) 0 0 / 320px; }
+.scene-sky .stats { text-shadow: 0 1px 3px rgba(4, 30, 12, .8); }
 .scene-ink .stats { background-image: url(art/epdm-blue.jpg); }
 .scene > .stats { margin-top: -1px; z-index: 1; }
 .scene:has(.stats) .scene-art { margin-bottom: -26px; }
@@ -154,7 +156,7 @@ p { margin: 0; }
 .faq-list { min-width: 0; }
 .faq-side { display: grid; gap: clamp(22px, 3vw, 36px); min-width: 0; }
 .faq-art { display: flex; align-items: flex-end; justify-content: space-between; gap: 6%; position: relative; max-width: 440px; padding: 0 2% 12px; }
-.faq-art::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 16px; border-radius: 8px; background: #1a8644 url(art/epdm-green.jpg) 0 0 / 340px; }
+.faq-art::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 16px; border-radius: 8px; background: #1f6b2e url(art/grass-tile.webp) 0 0 / 200px; }
 .faq-art img { width: 47%; height: auto; }
 details { border-bottom: 2px solid var(--line); }
 summary { cursor: pointer; padding: 18px 0; font-weight: 700; font-size: 1.1rem; }
@@ -246,7 +248,7 @@ details p { padding-bottom: 20px; color: var(--ink-2); max-width: 66ch; }
 
 /* footer */
 .foot { position: relative; background: var(--ink); color: var(--on-dark); padding-bottom: 20px; }
-.foot > .ground { position: static; height: 44px; }
+.foot > .ground { position: relative; height: 44px; }
 .foot-in { display: grid; grid-template-columns: minmax(0, 1.5fr) repeat(3, minmax(0, 1fr)); gap: 30px; padding-top: 44px; }
 .foot-in > div { display: grid; gap: 8px; align-content: start; font-size: 0.97rem; min-width: 0; overflow-wrap: anywhere; }
 .foot-in > .foot-brand { gap: 16px; justify-items: start; }
