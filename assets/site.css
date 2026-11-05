@@ -305,3 +305,10 @@ details p { padding-bottom: 20px; color: var(--ink-2); max-width: 66ch; }
   .btn, .range, .pc, .wa-float { transition: none; }
   .btn:hover, .range:hover, .pc:hover, .wa-float:hover { transform: none; }
 }
+
+/* Privacy page */
+.prose { max-width: 760px; }
+.prose h1 { margin-bottom: 24px; }
+.prose h2 { margin: 36px 0 12px; font-size: 1.5rem; }
+.prose p { margin: 0 0 14px; }
+.prose a, .legal a, .fnote a { text-decoration: underline; }

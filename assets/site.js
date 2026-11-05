@@ -1,3 +1,16 @@
+// Tells Google Ads about an enquiry. Does nothing until the tag is on the page.
+function track(kind) {
+  var labels = window.ADS_LABELS || {};
+  if (window.gtag && labels[kind]) window.gtag('event', 'conversion', { send_to: labels[kind] });
+}
+document.addEventListener('click', function (e) {
+  var a = e.target.closest && e.target.closest('a[href]');
+  if (!a) return;
+  var href = a.getAttribute('href');
+  if (href.indexOf('https://wa.me/') === 0) track('whatsapp');
+  else if (href.indexOf('tel:') === 0) track('phone');
+});
+
 // Catalogue search and filter
 (function () {
   var grid = document.querySelector('.grid');
@@ -78,6 +91,7 @@
       .then(function (r) { return r.json(); })
       .then(function (d) {
         if (String(d.success) !== 'true') throw new Error('not sent');
+        track('form');
         done();
       })
       .catch(function () {
